@@ -15,7 +15,7 @@ Repository of Java Code for Task 2 and 3 of CSMCC16 Assignment
  *
  * Potential Areas for improvement:
  * - Multi-threading
- *   - Partitioning of input for parallel processing
- *   - Synchronisation and thread-safe operations
+ * - Partitioning of input for parallel processing
+ * - Synchronisation and thread-safe operations
  * - Error checking and handling
  */

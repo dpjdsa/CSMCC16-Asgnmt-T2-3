@@ -43,7 +43,7 @@ public class Config {
             this.files[i] = new File(args[i]);
     }
 
-    // Generic file reader returning an iterator cycling through each line of the specified file
+    /* Generic file reader returning an iterator cycling through each line of the specified file
     protected static Iterator read(File file) throws IOException {
         List record = new ArrayList();
         BufferedReader br = new BufferedReader(new FileReader(file));
@@ -51,9 +51,21 @@ public class Config {
         while((line = br.readLine()) != null)
             record.add(line);
         br.close();
+        System.out.println("Size of file ="+record.size());
         return record.iterator();
     }
-
+    */
+    // Generic file reader returning a list containing each line of input file
+    protected static int read(File file) throws IOException {
+    //List record = new ArrayList();
+    BufferedReader br = new BufferedReader(new FileReader(file));
+    String line;
+    while((line = br.readLine()) != null)
+        Job.record.add(line);
+    br.close();
+    System.out.println("Size of file ="+Job.record.size());
+    return Job.record.size();
+}
     // Return the list of files to process
     protected File[] getFiles() {
         return this.files;

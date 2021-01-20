@@ -21,6 +21,7 @@ public class Passenger {
         depTime=depTimeIn;
         flightTime=flightTimeIn;
     }
+    // toString() method used for printing passenger details
     @Override
     public String toString()
     {

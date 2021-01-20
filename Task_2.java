@@ -11,27 +11,25 @@ import java.util.HashMap;
 import java.util.Date;
 import java.text.*;
 /**
- * Assignment Task 2:
- * Assembles a list of flights with passengers by flight.
- * A single threaded solution which creates a mapper to process the passenger list.
- * No need for the combiner or reducer phases.
+ * Assignment Tasks 2 and 3:
+ * Creates List of flights based on Flight id.
+ * A multi-threaded solution which creates a mapper for the input file and does not need combiner or reducer stages
  * Also satisfies task 3 by summing the passenger list to give the total number of
  * passengers on each flight.
- * 
+ *
  * To run:
- * java Task_2.java <file>
+ * java Task_2.java <files>
  *     i.e. java Task_2.java AComp_Passenger_data_no_error.csv
  *
  * Potential Areas for improvement:
- * - Multi-threading
- *   - Partitioning of input for parallel processing
- *   - Synchronisation and thread-safe operations
+ * 
  * - Error checking and handling
+ * 
+ *  
  */
 class Task_2
     {
-    // Configure and set-up the job using command line arguments specifying input files and job-specific mapper and
-    // reducer functions
+    // Configure and set-up the job using command line arguments specifying input files and job-specific mapper function
     private static AirportList aList=new AirportList(30);
     public static void main(String[] args) throws Exception {
         ReadAirports();
@@ -41,7 +39,7 @@ class Task_2
         DisplayFlightList(Job.getMap());
         DisplayTotPassengers(Job.getMap());
     }
-
+    // Read in airports file
     public static void ReadAirports()
     {
         String csvFile1="Top30_airports_LatLong.csv";
@@ -68,9 +66,9 @@ class Task_2
         System.out.println(aList);
         System.out.println("*** no of airports is: "+aList.size());
     }
-    // Displays the flight list direct from the map produced in the map phase
+    // Displays the flight list based on the output map
     private static void DisplayFlightList(ConcurrentHashMap<String, Object> mapIn){
-        System.out.println("\n***** Flight List *****");
+        System.out.println("\n****** Flight List *****");
         for (Map.Entry<String,Object> entry : mapIn.entrySet()){
             String fltid = entry.getKey().substring(0,9);
             List values=(List) entry.getValue();
@@ -78,24 +76,21 @@ class Task_2
             for (Object value:values){System.out.format(" %-10s",value);}
             System.out.println();
         }
-        System.out.println("\n***** End of Flight List *****");
+        System.out.println("***** End of Flight List *****");
     }
-    // Displays the total number of passengers on each flight by taking the size
-    // of the passenger list from the map produced by the map phase.
+    // Evaluates and displays the total number of passengers based on the output map.
     private static void DisplayTotPassengers(ConcurrentHashMap<String,Object> mapIn){
-        System.out.println("\n\n***** Total Passengers per Flight *****");
-        System.out.println("         Flight    Org  Dest   Dep Time   Arr Time   Flt time(mins)");
+        System.out.println("\n        Flight ID  ORIG  DEST  Dep Time   Arr Time   mins");
         for (Map.Entry<String,Object> entry : mapIn.entrySet()){
             String key = entry.getKey();
             List value=(List) entry.getValue();
             System.out.format("Flight: %-50s  Number of Passengers: %2d\n",key,value.size());
         }
     }
-
-    // FromAirportCode+Flightid count mapper:
-    // Output a one for each occurrence of FromAirportCode+Flightid.
-    // KEY = FromAirportCode+Flightid
-    // VALUE = 1
+    // Flightid Passenger ID count mapper:
+    // Output Passenger ID for each occurrence of unique key.
+    // KEY = Flightid+From Airport+ Dest Airport + Departure Time + Arrival Time + Flight Time
+    // VALUE = Passenger ID
     public static class mapper extends Mapper {
         public void map(String line) {
             String[] Fields=line.split(",");
@@ -109,19 +104,20 @@ class Task_2
             EmitIntermediate(Fields[1]+" | "+Fields[2]+" | "+Fields[3]+" | "+depthms+" | "+arrthms+" | "+Fields[5],Fields[0]);
         }
     }
-    // Airport Code count combiner (not used for this task):
-    // Output the total number of occurrences of each unique Airport Code
+    // Airport Code count combiner (not used in this task):
+    // Output the total number of occurrences of each unique Aiport Code
     // KEY = FromAirport Code
     // VALUE = count
     public static class combiner extends Combiner {
-        public void combine(String key, List values) {
+        public void combine(Object key, List values) {
             EmitIntermediate3(key.toString().substring(0,3), values);
         }
     }
-    // Airport Code count reducer (not used for this task):
-    // Output the total number of occurrences of each unique Airport Code
+    // Airport Code count reducer (not used in this task):
+    // Output the total number of occurrences of each unique Aiport Code
     // KEY = FromAirport Code
     // VALUE = count
+    
     public static class reducer extends Reducer {
         public void reduce(String key, List values) {
             int count = 0;
