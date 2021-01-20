@@ -10,11 +10,11 @@ import java.util.concurrent.*;
  * MapReduce Job class
  * Coordinates the entire MapReduce process
  *
- * Areas for improvement:
- * - Implement effective partitioning or "chunking" of the input to evenly distribute records across multiple mappers
+ * Features:
+ * - Implements effective partitioning or "chunking" of the input to evenly distribute records across multiple mappers
  *   and reducers
- * - Pass segmented chunks to independent threads for efficient parallel processing
- * - Implement sorting
+ * - Passes segmented chunks to independent threads for efficient parallel processing
+ * 
  */
 public class Job {
     // Job configuration
@@ -23,29 +23,32 @@ public class Job {
     // Global Threadsafe objects to store intermediate and final results
     protected static ConcurrentHashMap map,map1;
     protected static ArrayList record;
+    protected static PassengerList pList;
 
     // Constructor
-    public Job(Config config) {
+    public Job(Config config,PassengerList pListIn) {
         this.config = config;
+        this.pList=pListIn;
     }
 
-    // Run the job given the provided configuration
+    // Run the job given the provided configuration, only requires map phase
     public void run() throws Exception {
         // Initialise the Threadsafe maps to store intermediate results
-        map = new ConcurrentHashMap<String,Object>();
-        map1 = new ConcurrentHashMap<String,Object>();
+        map = new ConcurrentHashMap();
+        map1 = new ConcurrentHashMap();
         // Initialise ArrayList to read in file prior to chunking up
         record = new ArrayList<String>();
-        // Execute the map phase only
+        // Execute the map and phase
         map();
+        System.out.println("After Map Phase, output map is: " + map);
     }
 
     // Map each provided file using an instance of the mapper specified by the job configuration
     private void map() throws Exception {
-        for(File file : config.getFiles()) {
-            Mapper mapper = config.getMapperInstance(file);
+            Mapper mapper = config.getMapperInstance();
+            mapper.setPList(pList);
             mapper.run();
-        }
+        
     }
     // Reduce the intermediate results output by the map phase using an instance of the combiner specified by the job configuration
     private void combine() throws Exception {

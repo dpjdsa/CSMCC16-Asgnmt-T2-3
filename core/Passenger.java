@@ -21,7 +21,29 @@ public class Passenger {
         depTime=depTimeIn;
         flightTime=flightTimeIn;
     }
-    // toString() method used for printing passenger details
+    public String getId(){
+        return passId;
+    }
+    public String getFlightId(){
+        return flightId;
+    }
+    public String getFromApt(){
+        return fromApt;
+    }
+    public String getDestApt(){
+        return destApt;
+    }
+    public double getDepTime(){
+        return depTime;
+    }
+    public double getFltTime(){
+        return flightTime;
+    }
+    public String toCSV(){
+        return (passId+","+flightId+","+fromApt+","+destApt+","+
+        String.format("%10.0f",depTime)+","+String.format("%5.0f",flightTime).trim());
+    }
+
     @Override
     public String toString()
     {

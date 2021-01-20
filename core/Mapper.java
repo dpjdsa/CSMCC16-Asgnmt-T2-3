@@ -8,9 +8,10 @@ import java.util.*;
  * An an abstract Mapper class defining multi-threaded map functionality
  *
  *  - Number of Map threads defined by NUM_MAP_THREADS
- *  - Operates on portions of the input in parallel rather than on entire files.
+ *  - Operates on portions of the input in parallel rather than on entire files
  *  - Implements the runnable interface for execution as a thread
  *  - Replaces operations on the global map object with thread-safe alternatives
+ *  - Error checks and corrects input file.
  */
 
 //public abstract class Mapper {
@@ -18,13 +19,14 @@ public abstract class Mapper{
     public static final int NUM_MAP_THREADS = 10; 
     // The input file for this mapper to process
     protected File file;
+    protected PassengerList pList;
 
     // Default constructor
     public Mapper() {}
 
     // Set the input file for the given instance
-    public void setFile(File file) {
-        this.file = file;
+    public void setPList(PassengerList pListIn) {
+        this.pList = pListIn;
     }
 
     // Execute the map function for each line of the provided file
@@ -33,7 +35,7 @@ public abstract class Mapper{
         int numRecords=0;
         // Read the file and get the size of it
         try {
-            numRecords = Config.read(this.file);
+            numRecords = Config.read(pList);
             if (num_map_threads>numRecords)
                 num_map_threads=numRecords;
         } catch (Exception e){
@@ -96,9 +98,8 @@ public abstract class Mapper{
 
     // Adds values to a list determined by a key
     // Map<KEY, List<VALUES>>
-    public void EmitIntermediate(String key, Object value) {
-        // Get the existing values linked to the observed key else create 
-        // a new map entry with an empty list.
+    public void EmitIntermediate(Object key, Object value) {
+        // Only add the key value pair if it doesn't already exist in the list.
         List values;
         if(Job.map.containsKey(key)) {
             values = (List) Job.map.get(key);

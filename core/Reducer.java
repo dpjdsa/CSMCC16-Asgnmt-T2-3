@@ -84,7 +84,7 @@ public abstract class Reducer {
     }
 
     // Abstract reduce function to the overwritten by objective-specific class
-    public abstract void reduce(String key, List values);
+    public abstract void reduce(Object key, List values);
 
     // Simply replace the intermediate and final result for each key
     // Map <KEY, List<VALUES>> -> Map <KEY, VALUE>

@@ -19,7 +19,6 @@ public class Airport {
         latitude=latIn;
         longitude=lonIn;
     }
-    // Getter methods
     public String getName()
     {
         return name;
