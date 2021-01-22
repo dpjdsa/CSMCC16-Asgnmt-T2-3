@@ -12,10 +12,10 @@ import java.util.HashMap;
  * Reading, Error Checking and Correcting input file
  * Reads in Airport list and Passenger record file.
  * Assumes airport list is error free but corrects passenger record fields
- * which have incorrect formats based on finding lowest Levensthein
+ * which have incorrect formats based on finding lowest Levenshtein
  * score to fields that have already been scanned correctly.
- * 
- *
+ * @author BD837672
+ * @version 22nd January 2021
  */
 public class ReadAndErrorCheck
     {
@@ -190,7 +190,7 @@ public class ReadAndErrorCheck
             e.printStackTrace();
         }
     }
-    // Calculates Levensthein distance between two strings
+    // Calculates Levenshtein distance between two strings
     // From https://en.wikipedia.org/wiki/Levenshtein_distance accessed on 6/1/21 at 12am.
     public static int Levensthein(String S1,String S2){
         int m=S1.length();
@@ -216,7 +216,7 @@ public class ReadAndErrorCheck
         return d[m][n]; 
     }
     // Compares FieldIn with Set containing possible values and chooses value with
-    // smallest Levensthein distance to be best match.
+    // smallest Levenshtein distance to be best match.
     public static String GetBestMatch(String FieldIn,HashSet<String> FieldListIn){
         int BestScore=9999;
         int Score=9999;
