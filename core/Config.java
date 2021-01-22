@@ -8,18 +8,14 @@ import java.util.Map;
 import java.util.*;
 import java.util.concurrent.*;
 
-//import src.objective.Passenger;
-//import src.objective.PassengerList;
-//import objective.Passenger;
-//import objective.PassengerList;
 
 /**
  * MapReduce Job Configuration
  * Stores the file specifications provided at run-time and
  * uses reflection to set objective-specific mapper and reducer classes.
  *
- * Areas for improvement:
- * - Output to file or implement a user interface to display results
+ * @author BD837672
+ * @version 22nd January 2021
  */
 public class Config {
     // Input files to process
@@ -29,9 +25,7 @@ public class Config {
     private Class mapper, reducer, combiner;
 
     // Constructor
-    //public Config(String[] args, Class mapper, Class reducer, Class combiner) {
     public Config(Class mapper, Class reducer, Class combiner) {
-        //init(args);
         this.mapper = mapper;
         this.reducer = reducer;
         this.combiner = combiner;
@@ -57,7 +51,6 @@ public class Config {
     //protected Mapper getMapperInstance(File file) throws Exception {
     protected Mapper getMapperInstance() throws Exception {
         Mapper mapper = (Mapper) this.mapper.getConstructor().newInstance();
-        //mapper.setFile(file);
         return mapper;
     }
 
