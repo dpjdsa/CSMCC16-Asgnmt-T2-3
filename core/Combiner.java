@@ -13,6 +13,8 @@ import java.util.*;
  * - Splits inputs across threads and then executes threads in parallel.
  * - Implements runnable interface for execution as a thread.
  * - Uses thread-safe alternative data structures.
+ * @author BD837672
+ * @version 22nd January 2021
  */
 public abstract class Combiner {
     public static final int NUM_COMBINE_THREADS = 12; 
