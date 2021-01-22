@@ -12,7 +12,7 @@ passengers on each flight.
 Also includes error checking and correcting of the passenger records file
 
 To run:
-    java Task_2.java <files>
+    java Task_2.java files
     
     i.e. java Task_2.java Top30_airports_LatLong.csv AComp_Passenger_data.csv
 
