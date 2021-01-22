@@ -2,8 +2,6 @@ package core;
 
 import java.io.File;
 import java.util.*;
-
-//import objective.AirportList;
 import java.util.concurrent.*;
 
 /**
@@ -14,7 +12,8 @@ import java.util.concurrent.*;
  * - Implements effective partitioning or "chunking" of the input to evenly distribute records across multiple mappers
  *   and reducers
  * - Passes segmented chunks to independent threads for efficient parallel processing
- * 
+ * @author BD837672
+ * @version 22nd January 2021
  */
 public class Job {
     // Job configuration
@@ -38,7 +37,7 @@ public class Job {
         map1 = new ConcurrentHashMap();
         // Initialise ArrayList to read in file prior to chunking up
         record = new ArrayList<String>();
-        // Execute the map and phase
+        // Execute the map phase
         map();
         System.out.println("After Map Phase, output map is: " + map);
     }
