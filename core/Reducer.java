@@ -12,6 +12,8 @@ import java.util.*;
  * Aspects:
  * - Implements runnable interface for execution as a thread
  * - Uses thread-safe alternative data structures (ConcurrentHashMap)
+ * @author BD837672
+ * @version 22nd January 2021
  */
 public abstract class Reducer {
     public static final int NUM_REDUCE_THREADS = 5; 
