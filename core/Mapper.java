@@ -12,6 +12,8 @@ import java.util.*;
  *  - Implements the runnable interface for execution as a thread
  *  - Replaces operations on the global map object with thread-safe alternatives
  *  - Error checks and corrects input file.
+ * @author BD837672
+ * @version 22nd January 2021
  */
 
 //public abstract class Mapper {
