@@ -19,6 +19,7 @@ public class Airport {
         latitude=latIn;
         longitude=lonIn;
     }
+    // Getter methods
     public String getName()
     {
         return name;
@@ -35,6 +36,7 @@ public class Airport {
     {
         return longitude;
     }
+    // For output
     @Override
     public String toString()
     {
